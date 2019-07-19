@@ -1,6 +1,7 @@
 from cars.car import CarBase
 from cars.parts import Model, Colour, Gearbox, EngineCapacity
 from helpers.sql_base import Base, Session, engine
+from sqlalchemy import MetaData
 
 # Generate db schema
 Base.metadata.create_all(engine)
@@ -26,6 +27,10 @@ capacity_two_point_five = EngineCapacity(1, '2.5', 900)
 
 car_1 = CarBase(model_landCruiser.id, colour_black.id, gearbox_auto.id, capacity_two_point_five.id)
 car_2 = CarBase(model_corolla.id, colour_pink.id, gearbox_auto.id, capacity_two_point_five.id)
+
+# Delete ALL!!!11
+metadata = MetaData()
+metadata.drop_all(engine)
 
 # Persists data
 session.add(colour_pink)

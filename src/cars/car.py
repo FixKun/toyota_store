@@ -5,7 +5,8 @@ import uuid
 
 from sqlalchemy import Column, String, ForeignKey, Integer
 from sqlalchemy.dialects.postgresql import UUID
-from helpers.sql_base import Base
+from helpers.sql_base import Base, Session
+from cars.parts import Model, Colour, Gearbox, EngineCapacity
 
 
 class CarBase(Base):
@@ -18,11 +19,9 @@ class CarBase(Base):
                 primary_key=True,
                 default=lambda: str(uuid.uuid4()))
     model = Column(Integer, ForeignKey('model.id'))
+    colour = Column(Integer, ForeignKey('colour.id'))
     gearbox = Column(Integer, ForeignKey('gearbox.id'))
     engine_capacity = Column(Integer, ForeignKey('engine_capacity.id'))
-
-    # price = 0
-    # model_base_price = 0
 
     def __init__(self, model, colour, gearbox, engine_capacity):
         self.model = model
@@ -30,16 +29,9 @@ class CarBase(Base):
         self.gearbox = gearbox
         self.engine_capacity = engine_capacity
 
+    def get_price(self):
 
-class LandCruiser(CarBase):
-    """Sub-class for Land Cruiser"""
+        session = Session()
 
-    model_base_price = 5000
-
-
-class Camry(CarBase):
-    """Sub-class for Camry"""
-
-
-class Corolla(CarBase):
-    """Sub-class for Corolla"""
+        price = session.query(CarBase) \
+        .join()
