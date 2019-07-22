@@ -6,7 +6,6 @@ import uuid
 from sqlalchemy import Column, String, ForeignKey, Integer
 from sqlalchemy.dialects.postgresql import UUID
 from helpers.sql_base import Base, Session
-from cars.parts import Model, Colour, Gearbox, EngineCapacity
 
 
 class CarBase(Base):
@@ -29,9 +28,4 @@ class CarBase(Base):
         self.gearbox = gearbox
         self.engine_capacity = engine_capacity
 
-    def get_price(self):
 
-        session = Session()
-
-        price = session.query(CarBase) \
-        .join()

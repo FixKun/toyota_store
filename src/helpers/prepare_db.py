@@ -24,13 +24,10 @@ gearbox_var = Gearbox(2, 'Variator', 250)
 
 capacity_two = EngineCapacity(0, '2.0', 700)
 capacity_two_point_five = EngineCapacity(1, '2.5', 900)
+capacity_two_point_eight = EngineCapacity(2, '2.8', 1000)
 
 car_1 = CarBase(model_landCruiser.id, colour_black.id, gearbox_auto.id, capacity_two_point_five.id)
 car_2 = CarBase(model_corolla.id, colour_pink.id, gearbox_auto.id, capacity_two_point_five.id)
-
-# Delete ALL!!!11
-metadata = MetaData()
-metadata.drop_all(engine)
 
 # Persists data
 session.add(colour_pink)
@@ -47,6 +44,8 @@ session.add(gearbox_var)
 
 session.add(capacity_two)
 session.add(capacity_two_point_five)
+
+session.commit()
 
 session.add(car_1)
 session.add(car_2)
