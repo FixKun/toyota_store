@@ -1,3 +1,5 @@
+""" Init DB """
+
 from cars.car import CarBase
 from cars.parts import (
     Model,
@@ -6,15 +8,16 @@ from cars.parts import (
     EngineCapacity
 )
 from helpers.sql_base import (
-    Base,
-    engine
+    BASE,
+    ENGINE,
+    SESSION
 )
 
 # Generate db schema
-Base.metadata.create_all(engine)
+BASE.metadata.create_all(ENGINE)
 
 # Open a new session
-session = Session()
+session = SESSION()
 
 # Doing the do
 colour_white = Colour(0, 'White', 2)
@@ -61,4 +64,3 @@ session.add(car_2)
 # Commit and close session
 session.commit()
 session.close()
-

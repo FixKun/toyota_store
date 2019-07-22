@@ -8,10 +8,10 @@ from sqlalchemy import (
     Integer
 )
 from sqlalchemy.dialects.postgresql import UUID
-from helpers.sql_base import Base
+from helpers.sql_base import BASE
 
 
-class CarBase(Base):
+class CarBase(BASE):
     """Base car class"""
 
     __tablename__ = 'cars'
@@ -30,5 +30,3 @@ class CarBase(Base):
         self.colour = colour
         self.gearbox = gearbox
         self.engine_capacity = engine_capacity
-
-

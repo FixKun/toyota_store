@@ -7,10 +7,10 @@ from sqlalchemy import (
     String,
     Integer
 )
-from helpers.sql_base import Base
+from helpers.sql_base import BASE
 
 
-class AbstractBasePart(Base):
+class AbstractBasePart(BASE):
     """Car models class """
 
     __abstract__ = True
