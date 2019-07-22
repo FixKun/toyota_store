@@ -30,7 +30,6 @@ class Model(AbstractBasePart):
     __tablename__ = 'model'
 
 
-
 class Gearbox(AbstractBasePart):
 
     __tablename__ = 'gearbox'
@@ -44,4 +43,3 @@ class EngineCapacity(AbstractBasePart):
 class Colour(AbstractBasePart):
 
     __tablename__ = 'colour'
-

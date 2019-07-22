@@ -48,6 +48,7 @@ def main():
             get_engines()
             engine = get_non_negative_int("Select Engine: \n")
             car = CarBase(model, colour, gearbox, engine)
+            print(car)
             save_car(car)
 
         elif option == '4':
