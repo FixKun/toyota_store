@@ -1,5 +1,12 @@
-from helpers.queries import get_cars_prices, get_cars_by_price_range, get_colours, get_engines, get_gearboxes, \
-    get_models, save_car
+from helpers.queries import (
+    get_cars_prices,
+    get_cars_by_price_range,
+    get_colours,
+    get_engines,
+    get_gearboxes,
+    get_models,
+    save_car
+)
 from cars.car import CarBase
 import re
 

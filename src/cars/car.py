@@ -2,10 +2,13 @@
 Base car class and car model classes.
 """
 import uuid
-
-from sqlalchemy import Column, String, ForeignKey, Integer
+from sqlalchemy import (
+    Column,
+    ForeignKey,
+    Integer
+)
 from sqlalchemy.dialects.postgresql import UUID
-from helpers.sql_base import Base, Session
+from helpers.sql_base import Base
 
 
 class CarBase(Base):

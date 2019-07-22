@@ -2,8 +2,11 @@
 A class for car's parts and stuff
 """
 
-from sqlalchemy import Column, String, Integer
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import (
+    Column,
+    String,
+    Integer
+)
 from helpers.sql_base import Base
 
 

@@ -1,6 +1,11 @@
 from cars.car import CarBase
-from cars.parts import Model, Colour, Gearbox, EngineCapacity
-from helpers.sql_base import Base, Session, engine
+from cars.parts import (
+    Model,
+    Colour,
+    Gearbox,
+    EngineCapacity
+)
+from helpers.sql_base import Session
 
 
 def save_car(car):
