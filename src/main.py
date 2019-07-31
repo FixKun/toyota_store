@@ -1,7 +1,7 @@
 """Main script with menu and stuff"""
 
 import re
-from helpers.queries import (
+from db.queries import (
     get_cars_prices,
     get_cars_by_price_range,
     get_colours,
@@ -11,6 +11,7 @@ from helpers.queries import (
     save_car
 )
 from cars.car import CarBase
+from api import app
 
 
 def main():
@@ -22,7 +23,8 @@ def main():
               '1: Get all cars \n '
               '2: Get cars in price range \n '
               '3: Add new car \n '
-              '4: Quit \n')
+              '4: Quit \n'
+              '5: Let\'s start a server... \n')
         option = input("So...: ")
         if option == '1':
             pretty_print(get_cars_prices())
@@ -53,6 +55,9 @@ def main():
 
         elif option == '4':
             break
+        elif option == '5':
+            print('Starting a server...')
+            app.run()
         else:
             print('Wrong option. Try again.')
 

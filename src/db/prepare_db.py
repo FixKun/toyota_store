@@ -7,17 +7,13 @@ from cars.parts import (
     Gearbox,
     EngineCapacity
 )
-from helpers.sql_base import (
-    BASE,
-    ENGINE,
-    SESSION
-)
+from users.user import User
+from api import db
 
 # Generate db schema
-BASE.metadata.create_all(ENGINE)
+db.Model.metadata.create_all(db.engine)
 
 # Open a new session
-session = SESSION()
 
 # Doing the do
 colour_white = Colour(0, 'White', 2)
@@ -40,27 +36,34 @@ car_1 = CarBase(model_landCruiser.id, colour_black.id, gearbox_auto.id, capacity
 car_2 = CarBase(model_corolla.id, colour_pink.id, gearbox_auto.id, capacity_two_point_five.id)
 
 # Persists data
-session.add(colour_pink)
-session.add(colour_black)
-session.add(colour_white)
+db.session.add(colour_pink)
+db.session.add(colour_black)
+db.session.add(colour_white)
 
-session.add(model_landCruiser)
-session.add(model_camry)
-session.add(model_corolla)
+db.session.add(model_landCruiser)
+db.session.add(model_camry)
+db.session.add(model_corolla)
 
-session.add(gearbox_auto)
-session.add(gearbox_manual)
-session.add(gearbox_var)
+db.session.add(gearbox_auto)
+db.session.add(gearbox_manual)
+db.session.add(gearbox_var)
 
-session.add(capacity_two)
-session.add(capacity_two_point_five)
+db.session.add(capacity_two)
+db.session.add(capacity_two_point_five)
 
-session.commit()
+db.session.commit()
 
-session.add(car_1)
-session.add(car_2)
+db.session.add(car_1)
+db.session.add(car_2)
 
+# Add users
+admin = User('admin', True)
+admin.set_password('password')
+user = User('user', False)
+user.set_password('pass')
+db.session.add(admin)
+db.session.add(user)
 
 # Commit and close session
-session.commit()
-session.close()
+db.session.commit()
+db.session.close()

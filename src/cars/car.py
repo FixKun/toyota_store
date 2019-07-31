@@ -1,5 +1,5 @@
 """
-Base car class and car model classes.
+Base car class
 """
 import uuid
 from sqlalchemy import (
@@ -8,10 +8,10 @@ from sqlalchemy import (
     Integer
 )
 from sqlalchemy.dialects.postgresql import UUID
-from helpers.sql_base import BASE
+from api import db
 
 
-class CarBase(BASE):
+class CarBase(db.Model):
     """Base car class"""
 
     __tablename__ = 'cars'
