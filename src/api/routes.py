@@ -8,7 +8,8 @@ from flask import (
 from flask_login import (
     current_user,
     login_user,
-    login_required
+    login_required,
+    logout_user
 )
 from api.forms import LoginForm
 from users.user import User
@@ -39,3 +40,9 @@ def login():
         login_user(user, remember=True)
         return redirect(url_for('index'))
     return render_template('login.html', title='Sign In', form=form)
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('login'))

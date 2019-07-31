@@ -17,7 +17,7 @@ def save_car(car):
     db.session.close()
 
 
-def get_all():
+def get_all_cars():
     """ Get all cars with all parts for them """
     cars = db.session.query(CarBase, Colour, Gearbox, Model, EngineCapacity)\
         .join(Colour)\
@@ -32,46 +32,38 @@ def get_all():
 
 def get_cars_prices():
     """ Get list of cars sorted by their prices """
-    cars = get_all()
+    cars = get_all_cars()
     car_list = list(map(lambda c: (get_car_string(c), get_car_price(c)), cars))
     car_list.sort(key=lambda c: c[1])
     return car_list
 
 
 def get_models():
-    """ Get all car models"""
+    """ Get all car models """
     models = db.session.query(Model).order_by('id').all()
-    db.ession.close()
-    print("Models:")
-    for model in models:
-        print(f"{model.id}: {model.name} - {model.price} USD")
+    db.session.close()
+    return models
 
 
 def get_colours():
     """ Get all available colours """
     colours = db.session.query(Colour).order_by('id').all()
     db.session.close()
-    print("Colours:")
-    for colour in colours:
-        print(f"{colour.id}: {colour.name} - {colour.price} USD")
+    return colours
 
 
 def get_gearboxes():
     """ Get all available gearboxes """
     gearboxes = db.session.query(Gearbox).order_by('id').all()
     db.session.close()
-    print("Gearboxes:")
-    for gearbox in gearboxes:
-        print(f"{gearbox.id}: {gearbox.name} - {gearbox.price} USD")
+    return gearboxes
 
 
 def get_engines():
     """ Get all available engine capacities """
     engines = db.session.query(EngineCapacity).order_by('id').all()
     db.session.close()
-    print("Engine capacities:")
-    for engine in engines:
-        print(f"{engine.id}: {engine.name} - {engine.price} USD")
+    return engines
 
 
 def get_cars_by_price_range(price_range):

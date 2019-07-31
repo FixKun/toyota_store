@@ -6,7 +6,6 @@ import secrets
 from api import login
 from sqlalchemy import (
     Column,
-    ForeignKey,
     String,
     Boolean
 )
@@ -50,5 +49,5 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password, password)
 
     @login.user_loader
-    def load_user(username):
-        return User.query.filter_by(username=username).first()
+    def load_user(id):
+        return User.query.get(id)

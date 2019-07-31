@@ -24,6 +24,9 @@ class AbstractBasePart(db.Model):
         self.name = name
         self.price = price
 
+    def __str__(self):
+        return f"{self.id}: {self.name} - {self.price} USD"
+
 
 class Model(AbstractBasePart):
 

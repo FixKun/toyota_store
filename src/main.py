@@ -37,18 +37,22 @@ def main():
                                      input("Enter price range in '(number)-(number)' format: \n"))))
                     pretty_print(get_cars_by_price_range(price_range))
                     break
-                except ValueError:
+                except (ValueError, IndexError):
                     print("Oops! Wrong format. Try again.")
                     continue
         elif option == '3':
-            get_models()
-            model = get_non_negative_int("Select Model: \n")
-            get_gearboxes()
-            gearbox = get_non_negative_int("Select Gearbox: \n")
-            get_colours()
-            colour = get_non_negative_int("Select Colour: \n")
-            get_engines()
-            engine = get_non_negative_int("Select Engine: \n")
+            models = get_models()
+            print_parts(models)
+            model = get_non_negative_int("Select Model: \n", max_value=len(models))
+            gearboxes = get_gearboxes()
+            print_parts(gearboxes)
+            gearbox = get_non_negative_int("Select Gearbox: \n", max_value=len(gearboxes))
+            colours = get_colours()
+            print_parts(colours)
+            colour = get_non_negative_int("Select Colour: \n", max_value=len(colours))
+            engines = get_engines()
+            print_parts(engines)
+            engine = get_non_negative_int("Select Engine: \n", max_value=len(engines))
             car = CarBase(model, colour, gearbox, engine)
             print(car)
             save_car(car)
@@ -72,7 +76,12 @@ def pretty_print(cars):
     print("\n\n")
 
 
-def get_non_negative_int(prompt):
+def print_parts(parts):
+    for x in parts:
+        print(x)
+
+
+def get_non_negative_int(prompt, max_value=None):
     """re-use input validation"""
     while True:
         try:
@@ -84,6 +93,12 @@ def get_non_negative_int(prompt):
         if value < 0:
             print("Oops! Number must not be negative.")
             continue
+        elif max_value:
+            if value >= max_value:
+                print("Please, select one of the options above.")
+                continue
+            else:
+                break
         else:
             break
     return value
