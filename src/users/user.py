@@ -3,7 +3,9 @@ Base user class
 """
 import uuid
 import secrets
-from api import login
+from app import (
+    login,
+    db)
 from sqlalchemy import (
     Column,
     String,
@@ -11,7 +13,6 @@ from sqlalchemy import (
 )
 from flask_login import UserMixin
 from sqlalchemy.dialects.postgresql import UUID
-from api import db
 from werkzeug.security import (
     generate_password_hash,
     check_password_hash
@@ -19,7 +20,7 @@ from werkzeug.security import (
 
 
 class User(UserMixin, db.Model):
-    """Base user class"""
+    """ Base user class"""
 
     __tablename__ = 'users'
 

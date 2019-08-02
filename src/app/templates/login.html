@@ -16,7 +16,15 @@
             {{ form.password.label }}<br>
             {{ form.password(size=32) }}
         </p>
+
         <p>{{ form.submit() }}</p>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+             <ul class="flashes">
+                 <div class="message_flash" style="color: red;">{{ messages[0] }}</div>
+             </ul>
+             {% endif %}
+        {% endwith %}
     </form>
 </body>
 </html>

@@ -8,7 +8,7 @@ from sqlalchemy import (
     Integer
 )
 from sqlalchemy.dialects.postgresql import UUID
-from api import db
+from app import db
 
 
 class CarBase(db.Model):

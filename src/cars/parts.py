@@ -7,7 +7,7 @@ from sqlalchemy import (
     String,
     Integer
 )
-from api import db
+from app import db
 
 
 class AbstractBasePart(db.Model):
