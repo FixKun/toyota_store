@@ -20,6 +20,9 @@ def main():
     """
     Menu for getting and adding cars
     """
+
+    app = create_app()
+
     while True:
         print('Select an option: \n '
               '1: Get all cars \n '
@@ -29,7 +32,8 @@ def main():
               '5: Let\'s start a server... \n')
         option = input("So...: ")
         if option == '1':
-            pretty_print(get_cars_prices())
+            with app.app_context():
+                pretty_print(get_cars_prices())
         elif option == '2':
             while True:
                 try:
@@ -37,33 +41,34 @@ def main():
                         map(int,
                             re.split(r'[,-]',
                                      input("Enter price range in '(number)-(number)' format: \n"))))
-                    pretty_print(get_cars_by_price_range(price_range))
+                    with app.app_context():
+                        pretty_print(get_cars_by_price_range(price_range))
                     break
                 except (ValueError, IndexError):
                     print("Oops! Wrong format. Try again.")
                     continue
         elif option == '3':
-            models = get_models()
-            print_parts(models)
-            model = get_non_negative_int("Select Model: \n", max_value=len(models))
-            gearboxes = get_gearboxes()
-            print_parts(gearboxes)
-            gearbox = get_non_negative_int("Select Gearbox: \n", max_value=len(gearboxes))
-            colours = get_colours()
-            print_parts(colours)
-            colour = get_non_negative_int("Select Colour: \n", max_value=len(colours))
-            engines = get_engines()
-            print_parts(engines)
-            engine = get_non_negative_int("Select Engine: \n", max_value=len(engines))
-            car = CarBase(model, colour, gearbox, engine)
-            print(car)
-            save_car(car)
+            with app.app_context():
+                models = get_models()
+                print_parts(models)
+                model = get_non_negative_int("Select Model: \n", max_value=len(models))
+                gearboxes = get_gearboxes()
+                print_parts(gearboxes)
+                gearbox = get_non_negative_int("Select Gearbox: \n", max_value=len(gearboxes))
+                colours = get_colours()
+                print_parts(colours)
+                colour = get_non_negative_int("Select Colour: \n", max_value=len(colours))
+                engines = get_engines()
+                print_parts(engines)
+                engine = get_non_negative_int("Select Engine: \n", max_value=len(engines))
+                car = CarBase(model, colour, gearbox, engine)
+                print(car)
+                save_car(car)
 
         elif option == '4':
             break
         elif option == '5':
             print('Starting a server...')
-            app = create_app()
             app.run()
         else:
             print('Wrong option. Try again.')

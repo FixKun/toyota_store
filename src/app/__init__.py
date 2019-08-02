@@ -6,12 +6,9 @@ from flask_login import LoginManager
 from flask_migrate import Migrate
 from config import Config
 from flask_sqlalchemy import SQLAlchemy
-from app.auth import bp as auth_bp
-from app.pages import bp as pages_bp
-
 
 login = LoginManager()
-login.login_view = 'login'
+login.login_view = 'auth.login'
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -31,4 +28,5 @@ def create_app(config_class=Config):
     return app
 
 
-
+from app.auth import bp as auth_bp
+from app.pages import bp as pages_bp

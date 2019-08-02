@@ -7,7 +7,7 @@ from cars.parts import (
     Gearbox,
     EngineCapacity
 )
-from app import db
+from app import db, current_app
 
 
 def save_car(car):
