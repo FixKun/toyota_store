@@ -11,7 +11,9 @@ from db.queries import (
     save_car
 )
 from cars.car import CarBase
-from api import app
+from app import create_app
+
+# todo UI
 
 
 def main():
@@ -61,6 +63,7 @@ def main():
             break
         elif option == '5':
             print('Starting a server...')
+            app = create_app()
             app.run()
         else:
             print('Wrong option. Try again.')

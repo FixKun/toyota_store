@@ -8,7 +8,7 @@ from cars.parts import (
     EngineCapacity
 )
 from users.user import User
-from api import db
+from app import db
 
 # Generate db schema
 db.Model.metadata.create_all(db.engine)
