@@ -7,23 +7,17 @@ from cars.parts import (
     Gearbox,
     EngineCapacity
 )
-from app import db, current_app
+from app import db
 
 
-def save_car(car):
-    """ Insert car into DB """
-    db.session.add(car)
-    db.session.commit()
-    db.session.close()
-
-
+#  todo распихать по классам????
 def get_all_cars():
     """ Get all cars with all parts for them """
-    cars = db.session.query(CarBase, Colour, Gearbox, Model, EngineCapacity)\
-        .join(Colour)\
-        .join(Gearbox)\
-        .join(Model)\
-        .join(EngineCapacity)\
+    cars = db.session.query(CarBase, Colour, Gearbox, Model, EngineCapacity) \
+        .join(Colour) \
+        .join(Gearbox) \
+        .join(Model) \
+        .join(EngineCapacity) \
         .all()
     db.session.close()
 
@@ -36,6 +30,24 @@ def get_cars_prices():
     car_list = list(map(lambda c: (get_car_string(c), get_car_price(c)), cars))
     car_list.sort(key=lambda c: c[1])
     return car_list
+
+
+def get_cars_dict(price_range=None):
+    cars = []
+    for car in get_all_cars():
+        price = get_car_price(car)
+        if price_range and not price_range[0] <= price <= price_range[1]:
+            continue
+        cars.append({
+            'id': car[0].id,
+            'price': price,
+            'model': car[2].to_dict(),
+            'colour': car[1].to_dict(),
+            'gearbox': car[3].to_dict(),
+            'engine_capacity': car[4].to_dict()
+        })
+    cars.sort(key=lambda c: c['price'])
+    return cars
 
 
 def get_models():

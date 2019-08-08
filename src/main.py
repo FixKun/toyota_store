@@ -7,8 +7,7 @@ from db.queries import (
     get_colours,
     get_engines,
     get_gearboxes,
-    get_models,
-    save_car
+    get_models
 )
 from cars.car import CarBase
 from app import create_app
@@ -63,7 +62,7 @@ def main():
                 engine = get_non_negative_int("Select Engine: \n", max_value=len(engines))
                 car = CarBase(model, colour, gearbox, engine)
                 print(car)
-                save_car(car)
+                car.save_car()
 
         elif option == '4':
             break
