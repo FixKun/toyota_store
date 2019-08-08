@@ -24,9 +24,11 @@ def create_app(config_class=Config):
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(pages_bp)
+    app.register_blueprint(api_bp, url_prefix='/api')
 
     return app
 
 
 from app.auth import bp as auth_bp
 from app.pages import bp as pages_bp
+from app.api import bp as api_bp

@@ -30,3 +30,14 @@ class CarBase(db.Model):
         self.colour = colour
         self.gearbox = gearbox
         self.engine_capacity = engine_capacity
+
+    def from_dict(self, data):
+        # todo
+        pass
+
+    def save_car(self):
+        """ Insert car into DB """
+        db.session.add(self)
+        db.session.commit()
+        db.session.close()
+

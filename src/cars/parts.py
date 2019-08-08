@@ -27,6 +27,14 @@ class AbstractBasePart(db.Model):
     def __str__(self):
         return f"{self.id}: {self.name} - {self.price} USD"
 
+    def to_dict(self):
+        data = {
+            'id': self.id,
+            'name': self.name,
+            'price': self.price
+        }
+        return data
+
 
 class Model(AbstractBasePart):
 

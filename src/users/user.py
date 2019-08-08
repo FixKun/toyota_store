@@ -31,8 +31,9 @@ class User(UserMixin, db.Model):
     username = Column(String,
                       unique=True,
                       nullable=False)
-    password = Column(String,
-                      nullable=False)
+    __password = Column("password",
+                        String,
+                        nullable=False)
     admin = Column(Boolean)
     api_token = Column(String,
                        unique=True,
@@ -44,10 +45,10 @@ class User(UserMixin, db.Model):
         self.admin = admin
 
     def set_password(self, password):
-        self.password = generate_password_hash(password)
+        self.__password = generate_password_hash(password)
 
     def check_password(self, password):
-        return check_password_hash(self.password, password)
+        return check_password_hash(self.__password, password)
 
     @login.user_loader
     def load_user(id):
