@@ -32,11 +32,14 @@ def get_cars_prices():
     return car_list
 
 
-def get_cars_dict(price_range=None):
+def get_cars_dict(start_range, end_range):
     cars = []
     for car in get_all_cars():
         price = get_car_price(car)
-        if price_range and not price_range[0] <= price <= price_range[1]:
+        if end_range:
+            if not start_range <= price <= end_range:
+                continue
+        elif price <= start_range:
             continue
         cars.append({
             'id': car[0].id,
