@@ -7,6 +7,12 @@ from sqlalchemy import (
     ForeignKey,
     Integer
 )
+from cars.parts import (
+    Model,
+    Colour,
+    Gearbox,
+    EngineCapacity
+)
 from sqlalchemy.dialects.postgresql import UUID
 from app import db
 
@@ -41,3 +47,64 @@ class CarBase(db.Model):
         db.session.commit()
         db.session.close()
 
+    # DB stuff
+    @staticmethod
+    def get_all_cars():
+        """ Get all cars with all parts for them """
+        cars = db.session.query(CarBase, Colour, Gearbox, Model, EngineCapacity) \
+            .join(Colour) \
+            .join(Gearbox) \
+            .join(Model) \
+            .join(EngineCapacity) \
+            .all()
+        db.session.close()
+
+        return cars
+
+    @staticmethod
+    def get_cars_dict(start_range, end_range):
+        cars = []
+        for car in CarBase.get_all_cars():
+            price = CarBase.get_car_price(car)
+            if end_range:
+                if not start_range <= price <= end_range:
+                    continue
+            elif price <= start_range:
+                continue
+            cars.append({
+                'id': car[0].id,
+                'price': price,
+                'model': car[2].to_dict(),
+                'colour': car[1].to_dict(),
+                'gearbox': car[3].to_dict(),
+                'engine_capacity': car[4].to_dict()
+            })
+        cars.sort(key=lambda c: c['price'])
+        return cars
+
+    @staticmethod
+    def get_cars_prices():
+        """ Get list of cars sorted by their prices """
+        cars = CarBase.get_all_cars()
+        car_list = list(map(lambda c: (CarBase.get_car_string(c), CarBase.get_car_price(c)), cars))
+        car_list.sort(key=lambda c: c[1])
+        return car_list
+
+    @staticmethod
+    def get_cars_by_price_range(price_range):
+        """ Get all cars that in the price range """
+        return list(filter(lambda car: price_range[0] <= car[1] <= price_range[1],
+                           CarBase.get_cars_prices()))
+
+    @staticmethod
+    def get_car_string(car_result):
+        """ Prettify car output"""
+        return f"{car_result[1].name} {car_result[3].name} ({car_result[4].name}) with {car_result[2].name} transmission"
+
+    @staticmethod
+    def get_car_price(car_result):
+        """ Calculate car price"""
+        price = 0
+        for i in car_result[1:]:
+            price += i.price
+        return price

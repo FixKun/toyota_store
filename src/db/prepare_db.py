@@ -69,7 +69,7 @@ with app.app_context():
 
     db.session.add(car_1)
     db.session.add(car_2)
-
+    db.session.commit()
 
     db.session.add(admin)
     db.session.add(user)
