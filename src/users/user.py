@@ -56,6 +56,9 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.__password, password)
 
+    def is_admin(self):
+        return self.admin
+
     # Methods for handling tokens
     def get_token(self, expires_in=3600):
         now = datetime.utcnow()

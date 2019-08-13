@@ -2,9 +2,9 @@ from app.api.auth import token_auth
 from app.pages import bp
 from flask import (
     jsonify,
-    request
+    request,
+    g
 )
-
 from app.api.errors import bad_request
 from cars.car import CarBase
 
@@ -47,6 +47,8 @@ def get_gearbox(id):
 @bp.route('/car/add', methods=['PUT'])
 @token_auth.login_required
 def add_car():
+    if not g.current_user.is_admin():
+        return bad_request('You don\'t have permission to perform this action')
     from cars.parts import (
         Model,
         Gearbox,
