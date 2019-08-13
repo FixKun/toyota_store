@@ -1,18 +1,16 @@
-from app.api.auth import token_auth
-from app.pages import bp
 from flask import (
     jsonify,
     request,
     g
 )
+from app.api.auth import token_auth
+from app.pages import bp
 from app.api.errors import bad_request
 from cars.car import CarBase
 
 
 @bp.route('/cars', methods=['GET'])
 def get_cars():
-    from cars.car import CarBase
-
     start_range = request.args.get('start_range', 0, type=int)
     end_range = request.args.get('end_range', None, type=int)
     if end_range and start_range > end_range:
@@ -44,7 +42,7 @@ def get_gearbox(id):
     return jsonify(Gearbox.query.get_or_404(id).to_dict())
 
 
-@bp.route('/car/add', methods=['PUT'])
+@bp.route('/car', methods=['PUT'])
 @token_auth.login_required
 def add_car():
     if not g.current_user.is_admin():
@@ -56,7 +54,10 @@ def add_car():
         Colour
     )
     data = request.get_json() or {}
-    if 'model' not in data or 'colour' not in data or 'engine_capacity' not in data or 'gearbox' not in data:
+    if 'model' not in data \
+            or 'colour' not in data \
+            or 'engine_capacity' not in data \
+            or 'gearbox' not in data:
         return bad_request('Must include `model`, `colour`, `engine_capacity` and `gearbox` fields')
     if not Model.query.filter_by(id=data['model']).first():
         return bad_request('Model not found. Please, use existing model')

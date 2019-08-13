@@ -103,7 +103,8 @@ class CarBase(db.Model):
     @staticmethod
     def get_car_string(car_result):
         """ Prettify car output"""
-        return f"{car_result[1].name} {car_result[3].name} ({car_result[4].name}) with {car_result[2].name} transmission"
+        return f"{car_result[1].name} {car_result[3].name} " \
+            f"({car_result[4].name}) with {car_result[2].name} transmission"
 
     @staticmethod
     def get_car_price(car_result):
@@ -114,10 +115,7 @@ class CarBase(db.Model):
         return price
 
     def is_already_exists(self):
-        if CarBase.query.filter_by(model=self.model,
-                                   colour=self.colour,
-                                   gearbox=self.gearbox,
-                                   engine_capacity=self.engine_capacity).first():
-            return True
-        else:
-            return False
+        return bool(CarBase.query.filter_by(model=self.model,
+                                            colour=self.colour,
+                                            gearbox=self.gearbox,
+                                            engine_capacity=self.engine_capacity).first())

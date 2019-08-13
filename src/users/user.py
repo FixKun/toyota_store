@@ -7,13 +7,11 @@ from datetime import (
 )
 import uuid
 import secrets
-from app import (
-    login,
-    db)
 from sqlalchemy import (
     Column,
     String,
-    Boolean
+    Boolean,
+    DateTime
 )
 from flask_login import UserMixin
 from sqlalchemy.dialects.postgresql import UUID
@@ -21,6 +19,10 @@ from werkzeug.security import (
     generate_password_hash,
     check_password_hash
 )
+
+from app import (
+    login,
+    db)
 
 
 class User(UserMixin, db.Model):
@@ -44,7 +46,7 @@ class User(UserMixin, db.Model):
                        index=True,
                        nullable=False,
                        default=lambda: secrets.token_urlsafe(32))
-    api_token_expiration = db.Column(db.DateTime)
+    api_token_expiration = Column(DateTime)
 
     def __init__(self, username, admin=False):
         self.username = username
@@ -62,7 +64,9 @@ class User(UserMixin, db.Model):
     # Methods for handling tokens
     def get_token(self, expires_in=3600):
         now = datetime.utcnow()
-        if self.api_token and self.api_token_expiration and self.api_token_expiration > now + timedelta(seconds=60):
+        if self.api_token and \
+                self.api_token_expiration and \
+                self.api_token_expiration > now + timedelta(seconds=60):
             return self.api_token
         self.api_token = secrets.token_urlsafe(32)
         self.api_token_expiration = now + timedelta(seconds=expires_in)

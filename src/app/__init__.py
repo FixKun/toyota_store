@@ -1,11 +1,10 @@
-from flask import (
-    Flask,
-    current_app
-)
+""" App init """
+
+from flask_sqlalchemy import SQLAlchemy
+from flask import Flask
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from config import Config
-from flask_sqlalchemy import SQLAlchemy
 
 login = LoginManager()
 login.login_view = 'auth.login'

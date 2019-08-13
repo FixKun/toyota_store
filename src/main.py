@@ -9,8 +9,6 @@ from cars.parts import (
 from cars.car import CarBase
 from app import create_app
 
-# todo UI
-
 
 def main():
     """
@@ -80,8 +78,9 @@ def pretty_print(cars):
 
 
 def print_parts(parts):
-    for x in parts:
-        print(x)
+    """ Printing parts of a car to a console """
+    for part in parts:
+        print(part)
 
 
 def get_non_negative_int(prompt, max_value=None):
