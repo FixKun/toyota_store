@@ -7,12 +7,7 @@ from sqlalchemy import (
     ForeignKey,
     Integer
 )
-from cars.parts import (
-    Model,
-    Colour,
-    Gearbox,
-    EngineCapacity
-)
+
 from sqlalchemy.dialects.postgresql import UUID
 from app import db
 
@@ -37,9 +32,12 @@ class CarBase(db.Model):
         self.gearbox = gearbox
         self.engine_capacity = engine_capacity
 
-    def from_dict(self, data):
-        # todo
-        pass
+    @classmethod
+    def from_dict(cls, data):
+        return cls(model=data['model'],
+                   colour=data['colour'],
+                   gearbox=data['gearbox'],
+                   engine_capacity=data['engine_capacity'])
 
     def save_car(self):
         """ Insert car into DB """
@@ -51,6 +49,12 @@ class CarBase(db.Model):
     @staticmethod
     def get_all_cars():
         """ Get all cars with all parts for them """
+        from cars.parts import (
+            Model,
+            Colour,
+            Gearbox,
+            EngineCapacity
+        )
         cars = db.session.query(CarBase, Colour, Gearbox, Model, EngineCapacity) \
             .join(Colour) \
             .join(Gearbox) \
@@ -108,3 +112,12 @@ class CarBase(db.Model):
         for i in car_result[1:]:
             price += i.price
         return price
+
+    def is_already_exists(self):
+        if CarBase.query.filter_by(model=self.model,
+                                   colour=self.colour,
+                                   gearbox=self.gearbox,
+                                   engine_capacity=self.engine_capacity).first():
+            return True
+        else:
+            return False
