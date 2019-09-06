@@ -45,7 +45,7 @@ class User(UserMixin, db.Model):
                        unique=True,
                        index=True,
                        nullable=False,
-                       default=lambda: secrets.token_urlsafe(32))
+                       default=lambda: secrets.token_urlsafe(16))
     api_token_expiration = Column(DateTime)
 
     def __init__(self, username, admin=False):
@@ -68,7 +68,7 @@ class User(UserMixin, db.Model):
                 self.api_token_expiration and \
                 self.api_token_expiration > now + timedelta(seconds=60):
             return self.api_token
-        self.api_token = secrets.token_urlsafe(32)
+        self.api_token = secrets.token_urlsafe(16)
         self.api_token_expiration = now + timedelta(seconds=expires_in)
         db.session.add(self)
         return self.api_token

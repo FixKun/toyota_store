@@ -6,11 +6,11 @@ from flask import (
 from app.api.auth import token_auth
 from app.pages import bp
 from app.api.errors import bad_request
-from cars.car import CarBase
 
 
 @bp.route('/cars', methods=['GET'])
 def get_cars():
+    from cars.car import CarBase
     start_range = request.args.get('start_range', 0, type=int)
     end_range = request.args.get('end_range', None, type=int)
     if end_range and start_range > end_range:
@@ -45,6 +45,7 @@ def get_gearbox(id):
 @bp.route('/car', methods=['PUT'])
 @token_auth.login_required
 def add_car():
+    from cars.car import CarBase
     if not g.current_user.is_admin():
         return bad_request('You don\'t have permission to perform this action')
     from cars.parts import (

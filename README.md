@@ -3,6 +3,9 @@
 
 docker run --name sqlalchemy-orm-psql -e POSTGRES_PASSWORD=pass -e POSTGRES_USER=usr -e POSTGRES_DB=sqlalchemy -p 5432:5432 -d postgres
 
+docker run --name sqlalchemy-test -e POSTGRES_PASSWORD=pass -e POSTGRES_USER=usr -e POSTGRES_DB=testdb -p 5439:5432 -d postgres
+
+
 
 # Migrations
 set FLASK_APP=src\main.py

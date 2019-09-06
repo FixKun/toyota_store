@@ -1,4 +1,3 @@
-from app.auth.forms import LoginForm
 from flask import (
     render_template,
     redirect,
@@ -10,6 +9,7 @@ from flask_login import (
     login_user,
     logout_user
 )
+from app.auth.forms import LoginForm
 from app.auth import bp
 from users.user import User
 

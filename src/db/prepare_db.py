@@ -9,7 +9,6 @@ from cars.parts import (
 )
 from users.user import User
 
-
 app = create_app()
 
 # Doing the do

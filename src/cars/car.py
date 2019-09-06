@@ -7,7 +7,6 @@ from sqlalchemy import (
     ForeignKey,
     Integer
 )
-
 from sqlalchemy.dialects.postgresql import UUID
 from app import db
 
@@ -34,6 +33,10 @@ class CarBase(db.Model):
 
     @classmethod
     def from_dict(cls, data):
+        """
+        Making an object instance from a dict.
+        This method assumes that data in the dict is valid
+        """
         return cls(model=data['model'],
                    colour=data['colour'],
                    gearbox=data['gearbox'],
@@ -66,7 +69,13 @@ class CarBase(db.Model):
         return cars
 
     @staticmethod
-    def get_cars_dict(start_range, end_range):
+    def get_cars_dict(start_range=0, end_range=None):
+        """
+        Returns a list of cars with parts as a dict
+        :param start_range: Lower bound of a price range
+        :param end_range: Upper bound of a price range
+        :return: a list of cars with parts as a dict
+        """
         cars = []
         for car in CarBase.get_all_cars():
             price = CarBase.get_car_price(car)
