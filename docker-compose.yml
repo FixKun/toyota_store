@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: usr
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: sqlalchemy
+#    ports:
+#       - "5432:5432"
+#  web:
+#    build: .
+#    command: python manage.py runserver 0.0.0.0:5000
+#    volumes:
+#      - .:/code
+#    ports:
+#      - "5000:5000"
+#    depends_on:
+#      - db
+
+  flask:
+    image: webapp-flask
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - "./:/app"
+    ports:
+      - "5000:5000"
