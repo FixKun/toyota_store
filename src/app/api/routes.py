@@ -3,9 +3,11 @@ from flask import (
     request,
     g
 )
+from sqlalchemy.exc import ProgrammingError
+
 from app.api.auth import token_auth
-from app.pages import bp
-from app.api.errors import bad_request
+from app.api import bp
+from app.api.errors import error_response, bad_request
 
 
 @bp.route('/cars', methods=['GET'])
@@ -18,28 +20,32 @@ def get_cars():
     return jsonify(CarBase.get_cars_dict(start_range, end_range))
 
 
+@bp.route('/model/', methods=['GET'])
 @bp.route('/model/<int:id>', methods=['GET'])
-def get_model(id):
+def get_model(id=None):
     from cars.parts import Model
-    return jsonify(Model.query.get_or_404(id).to_dict())
+    return return_all_or_by_id(id, Model)
 
 
+@bp.route('/colour/', methods=['GET'])
 @bp.route('/colour/<int:id>', methods=['GET'])
-def get_colour(id):
+def get_colour(id=None):
     from cars.parts import Colour
-    return jsonify(Colour.query.get_or_404(id).to_dict())
+    return return_all_or_by_id(id, Colour)
 
 
+@bp.route('/engine/', methods=['GET'])
 @bp.route('/engine/<int:id>', methods=['GET'])
-def get_engine(id):
+def get_engine(id=None):
     from cars.parts import EngineCapacity
-    return jsonify(EngineCapacity.query.get_or_404(id).to_dict())
+    return return_all_or_by_id(id, EngineCapacity)
 
 
+@bp.route('/gearbox/', methods=['GET'])
 @bp.route('/gearbox/<int:id>', methods=['GET'])
-def get_gearbox(id):
+def get_gearbox(id=None):
     from cars.parts import Gearbox
-    return jsonify(Gearbox.query.get_or_404(id).to_dict())
+    return return_all_or_by_id(id, Gearbox)
 
 
 @bp.route('/car', methods=['PUT'])
@@ -71,7 +77,18 @@ def add_car():
     car = CarBase.from_dict(data)
     if car.is_already_exists():
         return bad_request('Car already exists.')
-    car.save_car()
+    try:
+        car.save_car()
+    except ProgrammingError:
+        return error_response(400, "Unexpected error occurred")
     response = jsonify(data)
     response.status_code = 201
     return response
+
+
+def return_all_or_by_id(id, entity):
+    if id:
+        return jsonify(entity.query.get_or_404(id).to_dict())
+    else:
+        return jsonify([part.to_dict() for part in entity.get_parts()])
+

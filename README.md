@@ -7,9 +7,10 @@
 
 ## Endpoints:
 
-GET `/cars/` - returns a list of all cars in db
-GET `/model/{id}`
-GET `/colour/{id}`
-GET `/engine/{id}`
-GET `/gearbox/{id}`
-PUT `/car/`
+POST `/api/tokens/` - request auth token (basic auth required)
+GET `/api/cars/` - returns a list of all cars in db
+GET `/api/model/{id}`
+GET `/api/colour/{id}`
+GET `/api/engine/{id}`
+GET `/api/gearbox/{id}`
+PUT `/api/car/`

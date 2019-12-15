@@ -35,6 +35,13 @@ class AbstractBasePart(db.Model):
         }
         return data
 
+    @classmethod
+    def get_parts(cls):
+        """ Get all car models """
+        models = db.session.query(cls).order_by('id').all()
+        db.session.close()
+        return models
+
 
 class Model(AbstractBasePart):
 
