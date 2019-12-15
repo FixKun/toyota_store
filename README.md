@@ -1,14 +1,15 @@
-# toyota_store
+# toyota_store user guide
 
+## Starting an app:
+1. docker-compose up -d
+2. Run `prepare_db.py` script to populate db
+3. Run  `main.py` script to run an app
 
-docker run --name sqlalchemy-orm-psql -e POSTGRES_PASSWORD=pass -e POSTGRES_USER=usr -e POSTGRES_DB=sqlalchemy -p 5432:5432 -d postgres
+## Endpoints:
 
-docker run --name sqlalchemy-test -e POSTGRES_PASSWORD=pass -e POSTGRES_USER=usr -e POSTGRES_DB=testdb -p 5439:5432 -d postgres
-
-
-
-# Migrations
-set FLASK_APP=src\main.py
-
-flask db migrate -m "comment"
-flask db upgrade
+GET `/cars/` - returns a list of all cars in db
+GET `/model/{id}`
+GET `/colour/{id}`
+GET `/engine/{id}`
+GET `/gearbox/{id}`
+PUT `/car/`
