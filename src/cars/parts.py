@@ -35,50 +35,30 @@ class AbstractBasePart(db.Model):
         }
         return data
 
-
-class Model(AbstractBasePart):
-
-    __tablename__ = 'model'
-
     @classmethod
-    def get_models(cls):
+    def get_parts(cls):
         """ Get all car models """
         models = db.session.query(cls).order_by('id').all()
         db.session.close()
         return models
 
 
+class Model(AbstractBasePart):
+
+    __tablename__ = 'model'
+
+
 class Gearbox(AbstractBasePart):
 
     __tablename__ = 'gearbox'
-
-    @classmethod
-    def get_gearboxes(cls):
-        """ Get all available gearboxes """
-        gearboxes = db.session.query(cls).order_by('id').all()
-        db.session.close()
-        return gearboxes
 
 
 class EngineCapacity(AbstractBasePart):
 
     __tablename__ = 'engine_capacity'
 
-    @classmethod
-    def get_engines(cls):
-        """ Get all available engine capacities """
-        engines = db.session.query(cls).order_by('id').all()
-        db.session.close()
-        return engines
-
 
 class Colour(AbstractBasePart):
 
     __tablename__ = 'colour'
 
-    @classmethod
-    def get_colours(cls):
-        """ Get all available colours """
-        colours = db.session.query(cls).order_by('id').all()
-        db.session.close()
-        return colours
