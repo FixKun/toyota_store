@@ -9,7 +9,7 @@
 
 POST `/api/tokens/` - request auth token (basic auth required)
 
-GET `/api/cars/` - returns a list of all cars in db
+GET `/api/cars/?start_range=XXX&end_range=XXX` - returns a list of all cars in db with prices in range
 
 GET `/api/model/{id}` - returns a car model or a list of all models if no id was provided
  
