@@ -84,19 +84,15 @@ class CarBase(db.Model):
         cars = []
         for car in CarBase.get_all_cars():
             price = CarBase.get_car_price(car)
-            if max_price:
-                if not min_price <= price <= max_price:
-                    continue
-            elif price <= min_price:
-                continue
-            cars.append({
-                'id': car.CarBase.id,
-                'price': price,
-                'model': car.Model.to_dict(),
-                'colour': car.Colour.to_dict(),
-                'gearbox': car.Gearbox.to_dict(),
-                'engine_capacity': car.EngineCapacity.to_dict()
-            })
+            if CarBase.in_range(price, min_price, max_price):
+                cars.append({
+                    'id': car.CarBase.id,
+                    'price': price,
+                    'model': car.Model.to_dict(),
+                    'colour': car.Colour.to_dict(),
+                    'gearbox': car.Gearbox.to_dict(),
+                    'engine_capacity': car.EngineCapacity.to_dict()
+                })
         cars.sort(key=lambda c: c['price'])
         return cars
 
@@ -110,3 +106,9 @@ class CarBase(db.Model):
                                             colour=self.colour,
                                             gearbox=self.gearbox,
                                             engine_capacity=self.engine_capacity).first())
+
+    @staticmethod
+    def in_range(value, start=0, end=None):
+        if end:
+            return start <= value <= end
+        return value <= start
