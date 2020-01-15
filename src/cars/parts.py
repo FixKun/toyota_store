@@ -19,7 +19,7 @@ class AbstractBasePart(db.Model):
     name = Column(String, nullable=False)
     price = Column(Integer, nullable=False)
 
-    def __init__(self, id, name, price):
+    def __init__(self, id: int, name: str, price: int):
         self.id = id
         self.name = name
         self.price = price
@@ -28,12 +28,11 @@ class AbstractBasePart(db.Model):
         return f"{self.id}: {self.name} - {self.price} USD"
 
     def to_dict(self):
-        data = {
+        return {
             'id': self.id,
             'name': self.name,
             'price': self.price
         }
-        return data
 
     @classmethod
     def get_parts(cls):

@@ -25,7 +25,7 @@ class CarBase(db.Model):
     gearbox = Column(Integer, ForeignKey('gearbox.id'))
     engine_capacity = Column(Integer, ForeignKey('engine_capacity.id'))
 
-    def __init__(self, model, colour, gearbox, engine_capacity):
+    def __init__(self, model: int, colour: int, gearbox: int, engine_capacity: int):
         self.model = model
         self.colour = colour
         self.gearbox = gearbox
@@ -96,32 +96,9 @@ class CarBase(db.Model):
         return cars
 
     @staticmethod
-    def get_cars_prices():
-        """ Get list of cars sorted by their prices """
-        cars = CarBase.get_all_cars()
-        car_list = list(map(lambda c: (CarBase.get_car_string(c), CarBase.get_car_price(c)), cars))
-        car_list.sort(key=lambda c: c[1])
-        return car_list
-
-    @staticmethod
-    def get_cars_by_price_range(price_range):
-        """ Get all cars that in the price range """
-        return list(filter(lambda car: price_range[0] <= car[1] <= price_range[1],
-                           CarBase.get_cars_prices()))
-
-    @staticmethod
-    def get_car_string(car_result):
-        """ Prettify car output"""
-        return f"{car_result[1].name} {car_result[3].name} " \
-            f"({car_result[4].name}) with {car_result[2].name} transmission"
-
-    @staticmethod
     def get_car_price(car_result):
         """ Calculate car price"""
-        price = 0
-        for i in car_result[1:]:
-            price += i.price
-        return price
+        return sum(car.price for car in car_result[1:])
 
     def is_already_exists(self):
         return bool(CarBase.query.filter_by(model=self.model,
