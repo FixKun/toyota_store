@@ -61,10 +61,8 @@ def add_car():
         Colour
     )
     data = request.get_json() or {}
-    if 'model' not in data \
-            or 'colour' not in data \
-            or 'engine_capacity' not in data \
-            or 'gearbox' not in data:
+    required_fields = ['model', 'colour', 'engine_capacity', 'gearbox']
+    if not all(required_field in data for required_field in required_fields):
         return bad_request('Must include `model`, `colour`, `engine_capacity` and `gearbox` fields')
     if not Model.query.filter_by(id=data['model']).first():
         return bad_request('Model not found. Please, use existing model')
