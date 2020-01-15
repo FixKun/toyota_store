@@ -2,6 +2,11 @@
 Base car class
 """
 import uuid
+from typing import (
+    List,
+    Dict
+)
+
 from sqlalchemy import (
     Column,
     ForeignKey,
@@ -69,28 +74,28 @@ class CarBase(db.Model):
         return cars
 
     @staticmethod
-    def get_cars_dict(start_range=0, end_range=None):
+    def get_cars(min_price=0, max_price=None) -> List[Dict[str, str]]:
         """
         Returns a list of cars with parts as a dict
-        :param start_range: Lower bound of a price range
-        :param end_range: Upper bound of a price range
+        :param min_price: Lower bound of a price range
+        :param max_price: Upper bound of a price range
         :return: a list of cars with parts as a dict
         """
         cars = []
         for car in CarBase.get_all_cars():
             price = CarBase.get_car_price(car)
-            if end_range:
-                if not start_range <= price <= end_range:
+            if max_price:
+                if not min_price <= price <= max_price:
                     continue
-            elif price <= start_range:
+            elif price <= min_price:
                 continue
             cars.append({
-                'id': car[0].id,
+                'id': car.CarBase.id,
                 'price': price,
-                'model': car[2].to_dict(),
-                'colour': car[1].to_dict(),
-                'gearbox': car[3].to_dict(),
-                'engine_capacity': car[4].to_dict()
+                'model': car.Model.to_dict(),
+                'colour': car.Colour.to_dict(),
+                'gearbox': car.Gearbox.to_dict(),
+                'engine_capacity': car.EngineCapacity.to_dict()
             })
         cars.sort(key=lambda c: c['price'])
         return cars

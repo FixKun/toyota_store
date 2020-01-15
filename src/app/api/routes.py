@@ -17,7 +17,7 @@ def get_cars():
     end_range = request.args.get('end_range', None, type=int)
     if end_range and start_range > end_range:
         return bad_request("'start_range' cannot be greater than 'end_range'.")
-    return jsonify(CarBase.get_cars_dict(start_range, end_range))
+    return jsonify(CarBase.get_cars(start_range, end_range))
 
 
 @bp.route('/model/', methods=['GET'])
